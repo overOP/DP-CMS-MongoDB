@@ -1,0 +1,10 @@
+ MVC - Model View Controller
+ Model - Database ko structure lai define garne
+ View - User interface lai define garne
+ Controller - Business logic lai handle garne
+ REST API - Representational State Transfer API
+ CRUD - Create, Read, Update, Delete
+ HTTP Methods - GET, POST, PUT, DELETE
+ Status Codes - 200, 201, 400, 401, 403, 404, 500
+ Middleware - Function that has access to the request and response objects
+ JWT - JSON Web Token

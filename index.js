@@ -1,5 +1,11 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const { connectToDatabase } = require("./database/database");
+const Blog = require("./model/blogModel");
+
+app.use(express.json()); // Middleware to parse JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded request bodies
+
 // Database connection function call
 connectToDatabase();
 // const mongoose = require("mongoose");
@@ -17,6 +23,33 @@ app.get("/", (req, res) => {
     status: "ok",
     message: "Server is running",
   });
+});
+
+  app.post("/createBlog", async (req, res) => {
+    const title = req.body.title;
+    const subTitle = req.body.subTitle;
+    const description = req.body.description
+    // Alternative(Destructuring)
+    // const { title, subTitle, description } = req.body;
+
+    // Insert to database 
+    console.log("Request Body:", req.body);
+    await Blog.create({
+      title: title,
+      subTitle: subTitle,
+      description: description,
+    });
+
+
+  res.json({
+    status: 201,
+    message: "Create Blog API",
+  });
+
+  // Alternative
+  // res.status(200).json({
+  //   message: "Create Blog API",
+  // });
 });
 
 app.listen(3000, () => {
