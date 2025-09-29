@@ -25,7 +25,6 @@ app.get("/", (req, res) => {
   });
 });
 
-
 // Get All Blogs API
 app.get("/getAllBlogs", async (req, res) => {
   const allBlogs = await Blog.find();
@@ -48,6 +47,56 @@ app.get("/getSingleBlog/:id", async (req, res) => {
   try {
     res.status(200).json({
       message: "Get Single Blog API",
+      data: blog,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Update Blog API
+app.put("/updateBlog/:id", async (req, res) => {
+  const blogId = req.params.id;
+  const { title, subTitle, description } = req.body;
+
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      blogId,
+      { title, subTitle, description },
+      { new: true } // To return the updated document
+    );
+
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Update Blog API",
+      data: blog,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Delete Blog API
+app.delete("/deleteBlog/:id", async (req, res) => {
+  const blogId = req.params.id;
+  try {
+    const blog = await Blog.findByIdAndDelete(blogId);
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
+    }
+    res.status(200).json({
+      message: "Delete Blog API",
       data: blog,
     });
   } catch (error) {
